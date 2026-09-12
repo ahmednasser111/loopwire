@@ -187,6 +187,22 @@ The application expects the following Kong routes:
 | `NEXT_PUBLIC_AUTH_SERVICE_URL` | Auth service URL | `http://localhost:3001` |
 | `NEXT_PUBLIC_CHAT_SERVICE_URL` | Chat service URL | `http://localhost:3002` |
 
+### Backend wake-up (production)
+
+The deployed backend (an Azure VM) deallocates itself after 30 minutes idle to save hosting
+cost, since this is a portfolio demo rather than a service with real traffic. `app/api/wake`
+is a serverless function that checks whether it's running and starts it back up when it
+isn't; `components/backend-wake-gate.tsx` wraps the whole app (`app/layout.tsx`) and holds
+visitors behind a "waking up" screen — polling every 8s, up to 3 minutes — until the backend
+actually responds, not just until the VM boots (Postgres/Kafka/Kong take roughly another
+minute after that).
+
+This needs its own set of environment variables (a service principal scoped to only start
+and read the power state of that one VM — see `deploy/README.md` in the `microservices-project`
+repo for how it was created): `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`,
+`AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_VM_NAME` — see `.env.local.example`.
+Without them configured (e.g. local dev), the wake check no-ops and the app renders normally.
+
 ## 🌐 API Endpoints
 
 ### Authentication

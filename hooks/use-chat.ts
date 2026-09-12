@@ -27,7 +27,9 @@ interface UserStatus {
 }
 
 // Chat client hook for managing authentication and real-time messaging
-export function useChat(gatewayUrl = "http://localhost:8000") {
+export function useChat(
+	gatewayUrl = process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8000"
+) {
 	const [user, setUser] = useState<User | null>(
 		typeof window !== "undefined"
 			? JSON.parse(localStorage.getItem("chat_user") || "null")
