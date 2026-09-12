@@ -121,7 +121,9 @@ export default function ChatPage() {
 				currentRoom={currentRoom}
 				onRoomSelect={handleRoomSelect}
 				onCreateRoom={handleCreateRoom}
-				onlineUsers={Array.from(onlineUsers)}
+				onlineUsers={Array.from(onlineUsers.values()).filter(
+					(u) => u.id !== user?.id
+				)}
 			/>
 
 			{/* Main Chat Area */}

@@ -26,6 +26,13 @@ interface UserStatus {
 	userId: string;
 }
 
+export interface OnlineUser {
+	id: string;
+	email: string;
+	firstName?: string;
+	lastName?: string;
+}
+
 // Chat client hook for managing authentication and real-time messaging
 export function useChat(
 	gatewayUrl = process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8000"
@@ -42,7 +49,9 @@ export function useChat(
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [rooms, setRooms] = useState<Room[]>([]);
 	const [currentRoom, setCurrentRoom] = useState<string>("");
-	const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
+	const [onlineUsers, setOnlineUsers] = useState<Map<string, OnlineUser>>(
+		new Map()
+	);
 	const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -198,10 +207,26 @@ export function useChat(
 				// User presence events (matching SocketService)
 				socket.on(
 					"user:joined",
-					(data: { userId: string; roomId: string; timestamp: Date }) => {
+					(data: {
+						userId: string;
+						email?: string;
+						firstName?: string;
+						lastName?: string;
+						roomId: string;
+						timestamp: Date;
+					}) => {
 						console.log("User joined:", data);
 						if (data.roomId === currentRoom) {
-							setOnlineUsers((prev) => new Set([...prev, data.userId]));
+							setOnlineUsers((prev) => {
+								const next = new Map(prev);
+								next.set(data.userId, {
+									id: data.userId,
+									email: data.email ?? data.userId,
+									firstName: data.firstName,
+									lastName: data.lastName,
+								});
+								return next;
+							});
 						}
 					}
 				);
@@ -212,17 +237,17 @@ export function useChat(
 						console.log("User left:", data);
 						if (data.roomId === currentRoom) {
 							setOnlineUsers((prev) => {
-								const newSet = new Set(prev);
-								newSet.delete(data.userId);
-								return newSet;
+								const next = new Map(prev);
+								next.delete(data.userId);
+								return next;
 							});
 						}
 					}
 				);
 
-				socket.on("users:online:list", (data: { users: string[] }) => {
+				socket.on("users:online:list", (data: { users: OnlineUser[] }) => {
 					console.log("Online users updated:", data);
-					setOnlineUsers(new Set(data.users));
+					setOnlineUsers(new Map(data.users.map((u) => [u.id, u])));
 				});
 
 				socket.on(
@@ -261,7 +286,12 @@ export function useChat(
 				// Room events
 				socket.on("room:created", (room: Room) => {
 					console.log("Room created:", room);
-					setRooms((prev) => [...prev, room]);
+					setRooms((prev) => {
+						// The creator already has this room from createRoom()'s own REST
+						// response — avoid double-adding it when their own broadcast arrives.
+						if (prev.some((r) => r.id === room.id)) return prev;
+						return [...prev, room];
+					});
 				});
 
 				socket.on("room:updated", (room: Room) => {

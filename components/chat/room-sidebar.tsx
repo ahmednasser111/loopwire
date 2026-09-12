@@ -15,13 +15,19 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Hash, Users } from "lucide-react";
+import type { OnlineUser } from "@/hooks/use-chat";
 
 interface RoomSidebarProps {
 	rooms: Room[];
 	currentRoom: string;
 	onRoomSelect: (roomId: string) => void;
 	onCreateRoom: (name: string, description?: string) => Promise<void>;
-	onlineUsers: string[];
+	onlineUsers: OnlineUser[];
+}
+
+function displayName(user: OnlineUser): string {
+	const name = [user.firstName, user.lastName].filter(Boolean).join(" ");
+	return name || user.email;
 }
 
 export function RoomSidebar({
@@ -181,11 +187,13 @@ export function RoomSidebar({
 							{onlineUsers.length === 0 ? (
 								<p className="text-xs text-muted-foreground">No users online</p>
 							) : (
-								onlineUsers.map((userId) => (
-									<div key={userId} className="flex items-center gap-2 text-sm">
+								onlineUsers.map((onlineUser) => (
+									<div
+										key={onlineUser.id}
+										className="flex items-center gap-2 text-sm">
 										<div className="h-2 w-2 bg-green-500 rounded-full" />
 										<span className="text-muted-foreground truncate">
-											{userId}
+											{displayName(onlineUser)}
 										</span>
 									</div>
 								))
