@@ -1,123 +1,109 @@
-# Kong Chat 🚀
+# Loopwire
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Kong Gateway](https://img.shields.io/badge/Kong-Gateway-green?style=for-the-badge&logo=kong)](https://konghq.com/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-realtime-black?style=for-the-badge&logo=socket.io)](https://socket.io/)
 
-> **Enterprise-grade real-time messaging platform powered by Kong API Gateway**
+> **Real-time messaging platform built on an API-gateway-fronted microservices backend**
 
-A modern, scalable chat application built with Next.js and secured by Kong API Gateway. Features real-time messaging, user authentication, room management, and comprehensive API management for professional communication needs.
+Loopwire is a real-time chat application with JWT authentication, room management, and
+presence/typing indicators, backed by a Kong API Gateway routing to independent auth and
+chat microservices. This repo is the frontend client; it talks to a separate backend
+project (auth service, chat service, Postgres, Kafka) over REST and WebSockets.
 
-## ✨ Features
+## Features
 
-### 🔐 **Authentication & Security**
+### Authentication & Security
 
 - JWT-based authentication via Kong Gateway
 - Secure user registration and login
 - Protected routes and API endpoints
 - Rate limiting and request validation
 
-### 💬 **Real-time Messaging**
+### Real-time Messaging
 
 - Instant messaging with WebSocket support
 - Message persistence and history
 - Typing indicators
 - User presence detection
 
-### 🏠 **Room Management**
+### Room Management
 
 - Create and manage chat rooms
 - Join/leave rooms dynamically
 - Room descriptions and metadata
 - Member count tracking
 
-### 🎨 **Modern UI/UX**
+### Modern UI/UX
 
-- Dark theme professional design
-- Responsive mobile-friendly interface
-- Clean, intuitive user experience
+- Dark theme, professional design
+- Responsive, mobile-friendly interface
 - Real-time connection status
 
-### 🚀 **Performance & Scalability**
+### Performance & Scalability
 
 - Kong Gateway for API management
 - Load balancing and monitoring
 - Microservices architecture
-- Optimized for high performance
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-### **Frontend**
+### Frontend
 
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Socket.IO Client** - Real-time communication
-- **Radix UI** - Accessible component library
-- **Lucide React** - Beautiful icons
+- **React (App Router)** — TypeScript, server + client components
+- **Tailwind CSS** — utility-first styling
+- **Socket.IO Client** — real-time communication
+- **Radix UI** — accessible component primitives
+- **Lucide React** — icons
 
-### **Backend Architecture**
+### Backend Architecture
 
-- **Kong API Gateway** - API management and security
-- **Authentication Service** (Port 3001) - JWT auth
-- **Chat Service** (Port 3002) - Messaging logic
-- **Socket.IO** - Real-time WebSocket connections
+- **Kong API Gateway** — API management and security
+- **Authentication Service** (Port 3001) — JWT auth
+- **Chat Service** (Port 3002) — messaging logic
+- **Socket.IO** — real-time WebSocket connections
 
-### **Development Tools**
+### Development Tools
 
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
-- **Geist Font** - Modern typography
-- **Vercel Analytics** - Performance monitoring
+- **ESLint** — code linting
+- **Geist Font** — typography
+- **Vercel Analytics** — performance monitoring
 
-## 📋 Prerequisites
-
-Before you begin, ensure you have the following installed:
+## Prerequisites
 
 - **Node.js** (v18 or higher)
-- **npm** or **yarn** package manager
+- **pnpm**
 - **Kong Gateway** (for API management)
-- **Git** for version control
+- **Git**
 
-## 🚀 Installation
+## Installation
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/kong-chat.git
-cd kong-chat
-```
-
-### 2. Install Dependencies
+### 1. Clone the repository
 
 ```bash
-npm install
-# or
-yarn install
+git clone https://github.com/ahmednasser111/loopwire.git
+cd loopwire
 ```
 
-### 3. Environment Setup
+### 2. Install dependencies
 
-Create a `.env.local` file in the root directory:
+```bash
+pnpm install
+```
+
+### 3. Environment setup
+
+Create a `.env.local` file in the root directory (see `.env.local.example`):
 
 ```env
 # Kong Gateway Configuration
 NEXT_PUBLIC_GATEWAY_URL=http://localhost:8000
 
-# Auth Service
-NEXT_PUBLIC_AUTH_SERVICE_URL=http://localhost:3001
-
-# Chat Service
-NEXT_PUBLIC_CHAT_SERVICE_URL=http://localhost:3002
-
-# Socket.IO Configuration
-NEXT_PUBLIC_SOCKET_URL=http://localhost:8000
-
 # Optional: Analytics
 VERCEL_ANALYTICS_ID=your_analytics_id
 ```
 
-### 4. Kong Gateway Setup
+### 4. Kong Gateway setup
 
 Ensure Kong Gateway is running and configured to route to your backend services:
 
@@ -132,39 +118,34 @@ curl -X POST http://localhost:8001/services \
   --data url=http://localhost:3002
 ```
 
-## 🎯 Usage
+## Usage
 
-### Development Mode
+### Development mode
 
 ```bash
-npm run dev
-# or
-yarn dev
+pnpm dev
 ```
 
 Navigate to `http://localhost:3000` to access the application.
 
-### Production Build
+### Production build
 
 ```bash
-npm run build
-npm start
-# or
-yarn build
-yarn start
+pnpm build
+pnpm start
 ```
 
-### Basic Usage Flow
+### Basic usage flow
 
-1. **Register/Login**: Create an account or sign in
-2. **Join Rooms**: Browse and join available chat rooms
-3. **Send Messages**: Start chatting in real-time
-4. **Create Rooms**: Set up new conversation spaces
-5. **Monitor Status**: View online users and connection status
+1. **Register/Login**: create an account or sign in
+2. **Join Rooms**: browse and join available chat rooms
+3. **Send Messages**: chat in real-time
+4. **Create Rooms**: set up new conversation spaces
+5. **Monitor Status**: view online users and connection status
 
-## 🔧 Configuration
+## Configuration
 
-### Kong Gateway Routes
+### Kong Gateway routes
 
 The application expects the following Kong routes:
 
@@ -179,13 +160,11 @@ The application expects the following Kong routes:
 /socket.io/* → Chat Service WebSocket (3002)
 ```
 
-### Environment Variables
+### Environment variables
 
-| Variable                       | Description      | Default                 |
-| ------------------------------ | ---------------- | ----------------------- |
-| `NEXT_PUBLIC_GATEWAY_URL`      | Kong Gateway URL | `http://localhost:8000` |
-| `NEXT_PUBLIC_AUTH_SERVICE_URL` | Auth service URL | `http://localhost:3001` |
-| `NEXT_PUBLIC_CHAT_SERVICE_URL` | Chat service URL | `http://localhost:3002` |
+| Variable                   | Description       | Default                  |
+| -------------------------- | ------------------ | ------------------------ |
+| `NEXT_PUBLIC_GATEWAY_URL`  | Kong Gateway URL  | `http://localhost:8000`  |
 
 ### Backend wake-up (production)
 
@@ -203,7 +182,7 @@ repo for how it was created): `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIEN
 `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_VM_NAME` — see `.env.local.example`.
 Without them configured (e.g. local dev), the wake check no-ops and the app renders normally.
 
-## 🌐 API Endpoints
+## API Endpoints
 
 ### Authentication
 
@@ -256,11 +235,11 @@ socket.on("user:left", (data) => {});
 socket.on("typing:user", (data) => {});
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
-```
-kong-chat/
-├── app/                    # Next.js App Router
+```text
+loopwire/
+├── app/                    # App Router routes
 │   ├── auth/              # Authentication pages
 │   ├── chat/              # Chat interface
 │   ├── globals.css        # Global styles
@@ -273,52 +252,12 @@ kong-chat/
 ├── hooks/                 # Custom React hooks
 │   └── use-chat.ts        # Main chat logic hook
 ├── lib/                   # Utility functions
-│   ├── api.ts             # API client
 │   ├── types.ts           # TypeScript types
 │   └── utils.ts           # Helper functions
-├── public/                # Static assets
-└── docs/                  # Documentation
+└── public/                # Static assets
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-
-```bash
-git fork https://github.com/yourusername/kong-chat.git
-```
-
-2. **Create a feature branch**
-
-```bash
-git checkout -b feature/amazing-feature
-```
-
-3. **Commit your changes**
-
-```bash
-git commit -m 'Add some amazing feature'
-```
-
-4. **Push to the branch**
-
-```bash
-git push origin feature/amazing-feature
-```
-
-5. **Open a Pull Request**
-
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Use conventional commits
-- Add tests for new features
-- Update documentation as needed
-- Ensure code passes ESLint checks
-
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -337,7 +276,7 @@ curl http://localhost:8001/services
 ```bash
 # Clear Next.js cache
 rm -rf .next
-npm run build
+pnpm build
 ```
 
 **Socket Connection Problems**
@@ -346,31 +285,12 @@ npm run build
 - Check firewall settings for ports 3000, 3001, 3002, 8000
 - Verify CORS configuration
 
-## 📄 License
+## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+MIT License — see the [LICENSE](LICENSE) file for details.
 
-```
-MIT License
+## Contact
 
-Copyright (c) 2024 Kong Chat
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software...
-```
-
-## 👥 Contact & Support
-
-**Author**: Ahmed Nasser  
-**Email**: ahmednaser7707@@gmail.com
-
-<div align="center">
-
-**⭐ Star this repo if you find it helpful!**
-
-Made with ❤️ by [Ahmed Nasser](https://github.com/ahmednasser111)
-
-</div>
+**Author**: Ahmed Nasser
+**Email**: <ahmednaser7707@gmail.com>
+**GitHub**: [@ahmednasser111](https://github.com/ahmednasser111)

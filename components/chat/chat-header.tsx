@@ -3,6 +3,7 @@
 import type { Room, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Hash, LogOut, Wifi, WifiOff } from "lucide-react";
 
 interface ChatHeaderProps {
@@ -67,6 +68,7 @@ export function ChatHeader({
 
 				{/* Actions */}
 				<div className="flex items-center gap-1">
+					<ThemeToggle />
 					<Button
 						variant="ghost"
 						size="sm"

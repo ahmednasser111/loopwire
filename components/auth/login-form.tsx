@@ -37,7 +37,7 @@ export function LoginForm({ onLogin, onSwitchToRegister, isLoading, error }: Log
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-semibold text-center text-foreground">Welcome back</CardTitle>
         <CardDescription className="text-center text-muted-foreground">
-          Sign in to your Kong Chat account
+          Sign in to your Loopwire account
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

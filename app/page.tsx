@@ -11,6 +11,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { SiteHeader } from "@/components/site-header";
 import {
 	MessageSquare,
 	Shield,
@@ -20,6 +21,7 @@ import {
 	Activity,
 	ArrowRight,
 	CheckCircle,
+	Github,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -47,39 +49,50 @@ export default function HomePage() {
 			title: "Kong API Gateway",
 			description:
 				"Secure authentication and API management with enterprise-grade Kong Gateway",
-			color: "text-blue-500",
+			color: "text-primary",
 		},
 		{
 			icon: MessageSquare,
 			title: "Real-time Messaging",
 			description:
 				"Instant messaging with WebSocket support and message persistence",
-			color: "text-green-500",
+			color: "text-accent-foreground",
 		},
 		{
 			icon: Users,
 			title: "Room Management",
 			description: "Create and join chat rooms with user presence indicators",
-			color: "text-purple-500",
+			color: "text-primary",
 		},
 		{
 			icon: Zap,
 			title: "High Performance",
 			description: "Optimized for speed with rate limiting and load balancing",
-			color: "text-yellow-500",
+			color: "text-accent-foreground",
 		},
 		{
 			icon: Database,
 			title: "Data Persistence",
 			description: "Reliable message storage with full chat history",
-			color: "text-red-500",
+			color: "text-primary",
 		},
 		{
 			icon: Activity,
 			title: "Monitoring & Analytics",
 			description: "Real-time metrics and comprehensive observability",
-			color: "text-cyan-500",
+			color: "text-accent-foreground",
 		},
+	];
+
+	const techStack = [
+		"Next.js",
+		"TypeScript",
+		"Tailwind CSS",
+		"Socket.IO",
+		"Kong Gateway",
+		"JWT Auth",
+		"PostgreSQL",
+		"Kafka",
 	];
 
 	const apiEndpoints = [
@@ -113,6 +126,8 @@ export default function HomePage() {
 
 	return (
 		<div className="min-h-screen bg-background">
+			<SiteHeader />
+
 			{/* Hero Section */}
 			<div className="relative overflow-hidden">
 				<div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
@@ -125,10 +140,10 @@ export default function HomePage() {
 								Powered by Kong API Gateway
 							</Badge>
 							<h1 className="text-4xl md:text-6xl font-bold text-foreground text-balance">
-								Professional Chat Platform
+								Loopwire
 							</h1>
 							<p className="text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
-								Enterprise-grade messaging application with real-time
+								Enterprise-grade messaging platform with real-time
 								communication, secure authentication, and comprehensive API
 								management through Kong Gateway.
 							</p>
@@ -142,13 +157,23 @@ export default function HomePage() {
 								Get Started
 								<ArrowRight className="ml-2 h-4 w-4" />
 							</Button>
-							<Button
-								size="lg"
-								variant="outline"
-								onClick={() => router.push("/dashboard")}
-								className="border-border text-foreground">
-								View Dashboard
+							<Button size="lg" variant="outline" asChild>
+								<a
+									href="https://github.com/ahmednasser111/loopwire"
+									target="_blank"
+									rel="noopener noreferrer">
+									<Github className="mr-2 h-4 w-4" />
+									View Source
+								</a>
 							</Button>
+						</div>
+
+						<div className="flex flex-wrap items-center justify-center gap-2 pt-4">
+							{techStack.map((tech) => (
+								<Badge key={tech} variant="outline" className="text-muted-foreground">
+									{tech}
+								</Badge>
+							))}
 						</div>
 					</div>
 				</div>
@@ -369,8 +394,8 @@ export default function HomePage() {
 							Ready to Get Started?
 						</h2>
 						<p className="text-muted-foreground max-w-2xl mx-auto">
-							Join the Kong Chat platform and experience enterprise-grade
-							messaging with real-time communication and robust security.
+							Join Loopwire and experience enterprise-grade messaging with
+							real-time communication and robust security.
 						</p>
 						<Button
 							size="lg"

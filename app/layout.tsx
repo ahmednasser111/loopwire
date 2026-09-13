@@ -5,12 +5,13 @@ import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import { BackendWakeGate } from "@/components/backend-wake-gate";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: "Kong Chat - Real-time Messaging Platform",
+	title: "Loopwire — Real-Time Messaging Platform",
 	description:
-		"Professional chat application powered by Kong API Gateway with real-time messaging, authentication, and room management.",
+		"Loopwire is a real-time messaging platform with JWT authentication, room management, and an API gateway-backed microservices architecture.",
 };
 
 export default function RootLayout({
@@ -19,13 +20,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="dark">
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-				<Suspense fallback={null}>
-					<BackendWakeGate>{children}</BackendWakeGate>
-				</Suspense>
-				<Analytics />
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+					enableSystem
+					disableTransitionOnChange>
+					<Suspense fallback={null}>
+						<BackendWakeGate>{children}</BackendWakeGate>
+					</Suspense>
+					<Analytics />
+				</ThemeProvider>
 			</body>
 		</html>
 	);

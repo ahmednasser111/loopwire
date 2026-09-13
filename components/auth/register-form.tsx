@@ -72,7 +72,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin, isLoading, error }: 
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-semibold text-center text-foreground">Create account</CardTitle>
         <CardDescription className="text-center text-muted-foreground">
-          Join Kong Chat and start messaging
+          Join Loopwire and start messaging
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
